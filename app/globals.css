@@ -20,4 +20,8 @@
   .dark .prose ul {
     color: #d1d5db !important;
   }
+
+  .dark body {
+    background-color: #000;
+  }
 }
