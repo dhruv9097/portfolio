@@ -54,8 +54,8 @@ export default function Home() {
             />
              <ProjectItem 
                 title="Fitness Tracker(to be deployed)" 
-                desc="Full-stack workout logger" 
-                link="https://github.com/dhruv9097" 
+                desc="Login Page" 
+                link="https://github.com/dhruv9097/login_page" 
             />
         </div>
       </section>
