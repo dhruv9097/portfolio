@@ -34,7 +34,7 @@ export default function Home() {
             <a href="https://github.com/dhruv9097" className="hover:text-black dark:hover:text-white hover:underline">GitHub</a>
             <a href="https://www.linkedin.com/in/dhruv-singh-9551b1286?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" className="hover:text-black dark:hover:text-white hover:underline">LinkedIn</a>
         </div>
-      </section>
+      </section> 
 
       {/* THE SIGNATURE DOTS */}
       <div className="flex justify-center gap-2">
