@@ -67,6 +67,12 @@ export default function Home() {
                 desc="Login Page & Dashboard" 
                 link="https://github.com/dhruv9097/login_page" 
             />
+
+            <ProjectItem 
+                title="Social Media Automation" 
+                desc="Automate social media posts using AI" 
+                link="https://github.com/dhruv9097/social-media-automation" 
+            />
             
         </div>
       </section>
