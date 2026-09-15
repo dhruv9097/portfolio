@@ -2,26 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer utilities {
+  /* Expanded, tightly-tracked display type */
+  .font-display {
+    font-variation-settings: 'wdth' 115;
+    letter-spacing: -0.02em;
+  }
+
+  /* Diagonal hatch for unfilled asset slots */
+  .hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 7px,
+      rgb(18 20 26 / 0.045) 7px,
+      rgb(18 20 26 / 0.045) 8px
+    );
+  }
+
+  .dark .hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 7px,
+      rgb(255 255 255 / 0.05) 7px,
+      rgb(255 255 255 / 0.05) 8px
+    );
+  }
+
   /* Force text color in Dark Mode */
-  .dark .prose h1, 
-  .dark .prose h2, 
-  .dark .prose h3, 
-  .dark .prose h4, 
-  .dark .prose strong, 
+  .dark .prose h1,
+  .dark .prose h2,
+  .dark .prose h3,
+  .dark .prose h4,
+  .dark .prose strong,
   .dark .prose b {
     color: white !important;
   }
-  
-  .dark .prose p, 
+
+  .dark .prose p,
   .dark .prose li,
   .dark .prose ul {
     color: #d1d5db !important;
-  }
-
-  .dark body {
-    background-color: #000;
   }
 }

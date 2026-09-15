@@ -1,11 +1,29 @@
 import './globals.css'
 import Link from 'next/link'
+import { Archivo, Newsreader, JetBrains_Mono } from 'next/font/google'
 import { Providers } from './providers'
-import ThemeSwitch from '@/components/ThemeSwitch'
+import SiteNav from '@/components/SiteNav'
+import { profile } from '@/content/profile'
+
+const displayFont = Archivo({
+  subsets: ['latin'],
+  axes: ['wdth'],
+  variable: '--font-display',
+})
+
+const bodyFont = Newsreader({
+  subsets: ['latin'],
+  variable: '--font-body',
+})
+
+const monoFont = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+})
 
 export const metadata = {
-  title: 'blog page ',
-  description: 'A minimalist portfolio',
+  title: `${profile.name} — ${profile.title}`,
+  description: `Portfolio of ${profile.name}, ${profile.title}.`,
 }
 
 export default function RootLayout({
@@ -14,52 +32,30 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="max-w-2xl mx-auto px-6 py-10 font-serif transition-colors duration-300 bg-white text-black dark:bg-black dark:text-white">
-        
+    <html lang="en" suppressHydrationWarning className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}>
+      <body className="max-w-4xl mx-auto px-6 py-10 font-serif transition-colors duration-300 bg-paper text-ink dark:bg-ink dark:text-paper">
+
         <Providers>
-          <header className="flex justify-between items-center mb-16">
-            <div className="font-bold text-xl">
-              <Link href="/">@dhruv</Link>
-            </div>
-            <div>
-              <nav className="max-w-2xl flex items-center gap-6 text-sm text-gray-500">
-                <Link href="/" className="hover:text-black dark:hover:text-white">Home</Link>
-                <Link href="/resume" className="hover:text-black dark:hover:text-white">Resume</Link>
-                <Link href="/favorites" className="hover:text-black dark:hover:text-white">Favorites</Link>
-                <ThemeSwitch />
-              </nav>
-            </div>
-          </header>
+          <SiteNav />
 
           <main>
             {children}
           </main>
 
-          
-
-          {/* THE FOOTER SIGNATURE */}
-          <footer className="pt-10 pb-20 text-center space-y-4">
-            <div className="flex justify-center gap-2 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+          <footer className="mt-32 pt-8 border-t border-ink/10 dark:border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 font-mono text-xs text-ink/50 dark:text-white/50">
+            <div className="flex gap-5">
+              <Link href="/blog" className="hover:text-ink dark:hover:text-paper">Blog</Link>
+              <Link href="/favorites" className="hover:text-ink dark:hover:text-paper">Favorites</Link>
             </div>
-
-            {/* Signature Font Effect */}
-            <div className="font-cursive text-3xl text-blue-500 opacity-80" style={{ fontFamily: 'cursive' }}>
-              dhruv
+            <div className="flex gap-5">
+              <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-ink dark:hover:text-paper">GitHub</a>
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-ink dark:hover:text-paper">LinkedIn</a>
+              <a href={`mailto:${profile.email}`} className="hover:text-ink dark:hover:text-paper">{profile.email}</a>
             </div>
-
-            <p className="text-xs text-gray-500 font-sans">
-              This site template is open sourced and available on <a href="#" className="underline">GitHub</a>.
-            </p>
-            <p className="text-xs text-gray-500 font-sans underline italic">singh.dhruv9097@gmail.com</p>
           </footer>
 
-
         </Providers>
-        
+
       </body>
     </html>
   )

@@ -1,131 +1,109 @@
 import { Download, Mail, Linkedin, Github } from 'lucide-react';
+import { profile } from '@/content/profile';
+import { experience } from '@/content/experience';
+import { skillGroups } from '@/content/skills';
+import SectionHeading from '@/components/SectionHeading';
 
 export default function Resume() {
   return (
-    <div className="space-y-12 font-serif text-black dark:text-gray-100">
-      
+    <div className="space-y-20">
+
       {/* HEADER */}
-      <section className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-gray-200 dark:border-gray-800 pb-8 gap-6">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold">Dhruv Singh</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 italic">
-            Data Science Student & Researcher
+      <section className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-ink/10 dark:border-white/10 pb-8 gap-6">
+        <div className="space-y-3">
+          <h1 className="font-display text-4xl font-semibold">{profile.name}</h1>
+          <p className="font-mono text-sm text-accent dark:text-accent-bright">
+            {profile.title}
           </p>
-          <div className="flex flex-wrap gap-4 text-sm text-gray-500 font-sans pt-2">
-            <a href="mailto:singh.dhruv9097@gmail.com" className="flex items-center gap-1 hover:text-black dark:hover:text-white transition-colors">
-                <Mail size={14} /> singh.dhruv9097@gmail.com
+          <div className="flex flex-wrap gap-4 font-mono text-xs text-ink/50 dark:text-white/50 pt-1">
+            <a href={`mailto:${profile.email}`} className="flex items-center gap-1.5 hover:text-accent dark:hover:text-accent-bright transition-colors">
+              <Mail size={13} /> {profile.email}
             </a>
-            <a href="https://www.linkedin.com/in/dhruv-singh-9551b1286/" target="_blank" className="flex items-center gap-1 hover:text-black dark:hover:text-white transition-colors">
-                <Linkedin size={14} /> LinkedIn
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-accent dark:hover:text-accent-bright transition-colors">
+              <Linkedin size={13} /> LinkedIn
             </a>
-            <a href="https://github.com/dhruv9097" target="_blank" className="flex items-center gap-1 hover:text-black dark:hover:text-white transition-colors">
-                <Github size={14} /> GitHub
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-accent dark:hover:text-accent-bright transition-colors">
+              <Github size={13} /> GitHub
             </a>
           </div>
         </div>
-        
-        <a 
-          href="/dhruv_resume.pdf" // Make sure to name your file exactly this in the public folder
+
+        <a
+          href="/dhruv_resume.pdf"
           target="_blank"
-          className="flex items-center gap-2 text-sm bg-black text-white dark:bg-white dark:text-black px-5 py-2.5 rounded-full hover:opacity-80 transition-opacity font-sans font-medium"
+          className="flex items-center gap-2 font-mono text-xs border border-ink/25 dark:border-white/25 px-4 py-2.5 hover:border-accent hover:text-accent dark:hover:border-accent-bright dark:hover:text-accent-bright transition-colors shrink-0"
         >
-          <Download size={16} />
-          <span>Download PDF</span>
+          <Download size={14} />
+          <span>download pdf</span>
         </a>
-      </section>
-
-      {/* EDUCATION */}
-      <section>
-        <h2 className="font-bold text-xl mb-8 flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-black dark:bg-white"></span>
-          Education
-        </h2>
-        
-        <div className="space-y-10 border-l border-gray-200 dark:border-gray-800 ml-1 pl-8 relative">
-          
-          <ResumeItem 
-            role="B.Sc. (Hons.) in Data Science"
-            company="Tribhuvan College, Nalanda University Centre"
-            location="Neemrana, Rajasthan"
-            period="2023 – Present"
-            description="Currently in 4th Semester with SGPA 8.4. Coursework includes Machine Learning, Data Visualization, SQL, and Python Programming."
-          />
-
-          <ResumeItem 
-            role="Senior Secondary (Class XII)"
-            company="Symbiosis Public School"
-            location="Dhanbad, Jharkhand"
-            period="2021 – 2023"
-            description="Completed PCM with Informatics Practices. Secured 74%."
-          />
-          
-        </div>
       </section>
 
       {/* EXPERIENCE & RESEARCH */}
       <section>
-        <h2 className="font-bold text-xl mb-8 flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-black dark:bg-white"></span>
-          Experience & Research
-        </h2>
-        
-        <div className="space-y-10 border-l border-gray-200 dark:border-gray-800 ml-1 pl-8 relative">
-          
-          <ResumeItem 
-            role="Paper Presentation: Renewable Energy"
-            company="Subharti University"
-            location="Remote / Hybrid"
-            period="2024"
-            description="Authored and presented a research paper titled 'A Modern Way to Generate Electricity: Floating Solar Farms'. Analyzed efficiency metrics and environmental impact compared to land-based systems."
+        <SectionHeading>experience &amp; research</SectionHeading>
+        <div className="space-y-12">
+          {experience.map((item) => (
+            <ResumeItem
+              key={`${item.org}-${item.period}`}
+              role={item.role}
+              company={item.org}
+              location={item.location}
+              period={item.period}
+              description={item.bullets}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* EDUCATION */}
+      <section>
+        <SectionHeading>education</SectionHeading>
+        <div className="space-y-12">
+          <ResumeItem
+            role="B.Sc. (Hons.) in Data Science"
+            company="Tribhuvan College, Nalanda University Centre"
+            location="Neemrana, Rajasthan"
+            period="2023 – Present"
+            description="GPA: 7.75 (10 scale). Coursework: Machine Learning, Data Visualization, SQL, Python Programming."
           />
 
-          <ResumeItem 
-            role="Python Hackathon Participant"
-            company="Codtech IT Solutions"
-            location="Remote"
-            period="2024"
-            description="Competed in a rigorous hackathon focused on algorithmic efficiency. Developed scripts to solve data processing challenges within strict time limits."
+          <ResumeItem
+            role="Senior Secondary (Class XII)"
+            company="Symbiosis Public School"
+            location="Dhanbad, Jharkhand"
+            period="2021 – 2023"
+            description="PCM with Informatics Practices. Secured 74%."
           />
-
         </div>
       </section>
 
       {/* PROJECTS */}
       <section>
-        <h2 className="font-bold text-xl mb-8 flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-black dark:bg-white"></span>
-          Projects
-        </h2>
-        
-        <div className="space-y-10 border-l border-gray-200 dark:border-gray-800 ml-1 pl-8 relative">
-          
-          <ResumeItem 
-            role="Physio-Detection System: Virtual Paint"
-            company="Python, OpenCV, MediaPipe"
-            location="" // Empty if not needed
+        <SectionHeading>further projects</SectionHeading>
+        <div className="space-y-12">
+          <ResumeItem
+            role="Life Expectancy Analysis"
+            company="Python, Pandas, NumPy"
+            location=""
             period="2024"
-            description="Developed a computer vision application allowing users to draw on-screen using hand gestures without physical contact. Optimized gesture recognition algorithms to reduce latency."
+            description="Analyzed a global life expectancy dataset, cleaning multi-source data and producing visualizations of health and socioeconomic trends."
           />
 
-          <ResumeItem 
+          <ResumeItem
             role="Academic Case Studies"
-            company="Research & Data Analysis"
+            company="Research &amp; Data Analysis"
             location=""
             period="2023"
             description="Analyzed Microsoft Farmbeats (IoT/AI in precision agriculture) and 'Waste to Wealth' bioplastic production methodologies."
           />
-
         </div>
       </section>
 
       {/* LEADERSHIP */}
       <section>
-        <h2 className="font-bold text-xl mb-8 flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-black dark:bg-white"></span>
-          Leadership
-        </h2>
-         <div className="space-y-10 border-l border-gray-200 dark:border-gray-800 ml-1 pl-8 relative">
-          <ResumeItem 
+        <SectionHeading>leadership</SectionHeading>
+        <div className="space-y-12">
+          <ResumeItem
             role="Event Organizer"
             company="Tribhuvan College"
             location="Neemrana"
@@ -137,64 +115,54 @@ export default function Resume() {
 
       {/* TECHNICAL SKILLS */}
       <section>
-         <h2 className="font-bold text-xl mb-8 flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-black dark:bg-white"></span>
-          Technical Skills
-        </h2>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 font-sans text-sm text-gray-600 dark:text-gray-400">
-            <SkillCategory title="Languages" skills={['Python (Intermediate)', 'C++ (Basic)', 'SQL (Basic)']} />
-            <SkillCategory title="Libraries & Tools" skills={['OpenCV & MediaPipe', 'Pandas & NumPy', 'QGIS', 'Git / GitHub']} />
-            <SkillCategory title="Domains" skills={['Data Analysis', 'Computer Vision', 'Machine Learning', 'Data Visualization']} />
-        </div>
+        <SectionHeading>technical skills</SectionHeading>
+        <dl className="space-y-5">
+          {skillGroups.map((group) => (
+            <div key={group.title} className="flex flex-col sm:flex-row gap-1 sm:gap-6">
+              <dt className="font-mono text-xs text-ink/40 dark:text-white/40 sm:w-44 shrink-0 sm:pt-0.5">
+                {group.title}
+              </dt>
+              <dd className="font-mono text-sm text-ink/80 dark:text-paper/80">
+                {group.skills.join(', ')}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
     </div>
   );
 }
 
-// --- Helper Components ---
-
-function ResumeItem({ role, company, location, period, description }: { role: string, company: string, location: string, period: string, description: string }) {
+function ResumeItem({ role, company, location, period, description }: { role: string, company: string, location: string, period: string, description: string | string[] }) {
   return (
-    <div className="relative group">
-      {/* The Dot on the timeline */}
-      <div className="absolute -left-[37px] top-1.5 w-3 h-3 rounded-full border-2 border-white dark:border-black bg-gray-400 dark:bg-gray-600 group-hover:bg-black dark:group-hover:bg-white transition-colors"></div>
-      
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
-        <h3 className="font-bold text-lg text-black dark:text-white">{role}</h3>
-        <span className="text-sm text-gray-500 font-sans tabular-nums shrink-0">{period}</span>
+    <div>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 mb-1">
+        <h3 className="font-display text-xl font-semibold">{role}</h3>
+        <span className="font-mono text-xs text-ink/40 dark:text-white/40 shrink-0">{period}</span>
       </div>
-      
-      <div className="flex flex-wrap gap-2 items-center text-sm text-gray-500 italic mb-3">
+
+      <div className="flex flex-wrap gap-2 items-center font-mono text-xs text-ink/50 dark:text-white/50 mb-4">
         <span>{company}</span>
         {location && (
-            <>
-                <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                <span>{location}</span>
-            </>
+          <>
+            <span className="w-[3px] h-[3px] rounded-full bg-accent dark:bg-accent-bright" />
+            <span>{location}</span>
+          </>
         )}
       </div>
-      
-      <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base font-sans">
-        {description}
-      </p>
+
+      {Array.isArray(description) ? (
+        <ul className="space-y-2 max-w-measure text-ink/75 dark:text-paper/75 leading-relaxed list-disc list-outside ml-4 marker:text-accent dark:marker:text-accent-bright">
+          {description.map((line, i) => (
+            <li key={i} className="pl-1">{line}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="max-w-measure text-ink/75 dark:text-paper/75 leading-relaxed">
+          {description}
+        </p>
+      )}
     </div>
   )
-}
-
-function SkillCategory({ title, skills }: { title: string, skills: string[] }) {
-    return (
-        <div>
-            <h3 className="font-bold text-black dark:text-white mb-3 border-b border-gray-200 dark:border-gray-800 pb-2">{title}</h3>
-            <ul className="space-y-2">
-                {skills.map(skill => (
-                    <li key={skill} className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                        {skill}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    )
 }

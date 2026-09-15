@@ -1,98 +1,215 @@
 import Link from 'next/link';
-import { getSortedPostsData } from '../lib/posts';
-// Ensure this is imported if you use the search feature later
+import { ArrowUpRight } from 'lucide-react';
+import { profile } from '@/content/profile';
+import { skillGroups } from '@/content/skills';
+import { experience } from '@/content/experience';
+import { projects } from '@/content/projects';
+import { sampleThread, sampleThreadIsSample } from '@/content/agents';
+import SectionHeading from '@/components/SectionHeading';
+import Specimen from '@/components/Specimen';
+import Slot from '@/components/Slot';
+import Leaderboard from '@/components/Leaderboard';
+import AgentChain from '@/components/AgentChain';
 
 export default function Home() {
-  const allPostsData = getSortedPostsData();
+  const latestRole = experience[0];
+  const project = (slug: string) => projects.find((p) => p.slug === slug)!;
+
+  const trendingProject = project('github-trending');
+  const smaProject = project('social-media-automation');
+  const physioProject = project('physio-detection');
+  const oscodeProject = project('oscode');
 
   return (
-    <div className="space-y-16">
-      
-      {/* 1. HEADER & BIO */}
-      <section className="space-y-6 mt-12">
-        <div className="flex items-center gap-4">
-            {/* Profile Image Placeholder */}
-            <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
-                {/* <Image src="/me.jpg" width={48} height={48} alt="Me" /> */}
+    <div className="space-y-28">
+
+      {/* HERO */}
+      <section className="grid sm:grid-cols-[1fr_auto] gap-8 items-start">
+        <div className="space-y-6 min-w-0">
+          <div>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold leading-[1.05]">
+              {profile.name}
+            </h1>
+            <p className="font-mono text-sm text-accent dark:text-accent-bright mt-3">
+              {profile.title}
+            </p>
+          </div>
+
+          <div className="max-w-measure text-lg leading-relaxed text-ink/80 dark:text-paper/80 space-y-4">
+            {profile.bio.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+
+          <div className="flex gap-5 font-mono text-xs text-ink/50 dark:text-white/50">
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-accent dark:hover:text-accent-bright">GitHub</a>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-accent dark:hover:text-accent-bright">LinkedIn</a>
+            <a href={`mailto:${profile.email}`} className="hover:text-accent dark:hover:text-accent-bright">Email</a>
+          </div>
+        </div>
+
+        <div className="w-full sm:w-44 shrink-0">
+          <Slot
+            aspect="3 / 4"
+            spec={{
+              filename: 'portrait.jpg',
+              spec: '3:4 · 1600×2133 min',
+              note: 'window light, no flash',
+            }}
+          />
+        </div>
+      </section>
+
+      {/* WORK */}
+      <section className="space-y-24">
+        <SectionHeading>selected work</SectionHeading>
+
+        {/* 1 — GitHub Trending Dashboard */}
+        <Specimen
+          title={trendingProject.title}
+          tech={trendingProject.tech}
+          link={trendingProject.link}
+          caption="The scraper pulls GitHub's trending page every day, cleans it with BeautifulSoup and Pandas, and scores each repo on daily star velocity rather than lifetime stars — so a two-week-old project can outrank a hundred-thousand-star incumbent. The table above is that scoring function's output."
+        >
+          <div className="space-y-4">
+            <Leaderboard />
+            <Slot
+              media={trendingProject.media}
+              spec={{
+                filename: 'trending-ui.png',
+                spec: '16:10 · 1440×900',
+                note: 'leaderboard, light mode, chrome cropped',
+              }}
+            />
+          </div>
+        </Specimen>
+
+        {/* 2 — Social Media Automation Engine */}
+        <Specimen
+          title={smaProject.title}
+          tech={smaProject.tech}
+          link={smaProject.link}
+          caption="Seven agents, each with one job, run in sequence — competitor intelligence at the front, a published thread and a generated image at the back. Every phase writes a structured JSON report, and the whole pipeline runs in mock mode against fixtures so a full dry run costs nothing in API quota."
+        >
+          <div className="space-y-10">
+            <AgentChain />
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Slot
+                aspect="1 / 1"
+                spec={{
+                  filename: 'sma-generated.png',
+                  spec: '1:1 · 1024×1024',
+                  note: 'a real Pollinations.ai output',
+                }}
+              />
+              <Slot
+                media={smaProject.media}
+                aspect="1 / 1"
+                spec={{
+                  filename: 'sma-ui.png',
+                  spec: '1:1 crop · 1440×900 source',
+                  note: 'social manager dashboard',
+                }}
+              />
             </div>
-            <div>
-                <h1 className="text-xl font-bold">Dhruv <span className="font-normal text-gray-500 italic">aka @dhruv9097</span></h1>
-            </div>
-        </div>
 
-        <div className="text-lg leading-relaxed text-gray-800 dark:text-gray-300">
-          <p className="mb-4">
-            I'm probably a product designer and AI/ML <span className="italic underline decoration-gray-400 underline-offset-4">Enthusiast</span>. 
-            Over the past few days, I've focused on designing beautiful software that people might love to use.
-          </p>
-          <p>
-            When I'm not designing, I love shooting street <span className="italic underline decoration-gray-400 underline-offset-4">photography</span> with my Moto G54.
-          </p>
-        </div>
+            <figure className="border-l-2 border-accent dark:border-accent-bright pl-5 space-y-3">
+              <figcaption className="font-mono text-xs text-ink/40 dark:text-white/40">
+                architect agent output{sampleThreadIsSample && ' · sample'}
+              </figcaption>
+              {sampleThread.map((line, i) => (
+                <p key={i} className="max-w-measure text-ink/80 dark:text-paper/80 leading-relaxed">
+                  {line}
+                </p>
+              ))}
+            </figure>
+          </div>
+        </Specimen>
 
-        {/* Minimal Social Links */}
-        <div className="flex gap-6 text-sm italic text-gray-500">
-            <a href="https://github.com/dhruv9097" className="hover:text-black dark:hover:text-white hover:underline">GitHub</a>
-            <a href="https://www.linkedin.com/in/dhruv-singh-9551b1286?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" className="hover:text-black dark:hover:text-white hover:underline">LinkedIn</a>
-        </div>
-      </section> 
+        {/* 3 — Physio-Detection */}
+        <Specimen
+          title={physioProject.title}
+          tech={physioProject.tech}
+          caption="MediaPipe tracks the hand, OpenCV renders the stroke, and the gap between those two is the entire product — every millisecond of latency shows up as a line that lags behind your finger. Most of the work went into the recognition loop, not the drawing."
+        >
+          <Slot
+            media={physioProject.media}
+            aspect="16 / 9"
+            spec={{
+              filename: 'virtual-paint.mp4',
+              spec: '16:9 · 8–12s · muted loop · ≤2MB',
+              note: 'start and end on an empty canvas',
+            }}
+          />
+        </Specimen>
 
-      {/* THE SIGNATURE DOTS */}
-      <div className="flex justify-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-        <span className="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
-        <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-      </div>
+        {/* 4 — OSCode */}
+        <Specimen
+          title={oscodeProject.title}
+          tech={oscodeProject.tech}
+          isPrivate
+          caption="Nine applications in one Turborepo, sharing UI, schema, and analytics packages. NestJS services over Prisma and PostgreSQL at the back; BullMQ and Redis carrying event registrations, notifications, and mentor payouts off the request path; Typesense handling mentor search."
+        >
+          <Slot
+            media={oscodeProject.media}
+            spec={{
+              filename: 'oscode-architecture.svg',
+              spec: '16:10 · redacted system diagram',
+              note: 'sketch it on paper — I will redraw it',
+            }}
+          />
+        </Specimen>
+      </section>
 
-      {/* 2. PROJECTS */}
+      {/* CURRENTLY */}
       <section>
-        <h2 className="font-bold text-xl mb-6">Projects</h2>
-        <div className="space-y-4">
-            
-            {/* NEW ADDITION 👇 */}
-            <ProjectItem 
-                title="GitHub Trending" 
-                desc="Real-time tracker for trending repositories" 
-                link="https://github.com/dhruv9097/github-trending" 
-            />
-
-            <ProjectItem 
-                title="Portfolio V1" 
-                desc="Minimalist static site generator" 
-                link="https://github.com/dhruv9097/sorted_blog" 
-            />
-            
-            <ProjectItem 
-                title="Login Page" 
-                desc="Login Page & Dashboard" 
-                link="https://github.com/dhruv9097/login_page" 
-            />
-
-            <ProjectItem 
-                title="Social Media Automation" 
-                desc="Automate social media posts using AI" 
-                link="https://github.com/dhruv9097/social-media-automation" 
-            />
-            
+        <SectionHeading>currently</SectionHeading>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2">
+          <p className="text-lg">
+            <span className="font-display font-semibold">{latestRole.role}</span>
+            <span className="text-ink/50 dark:text-white/50"> at {latestRole.org}</span>
+          </p>
+          <Link
+            href="/resume"
+            className="flex items-center gap-1 font-mono text-xs text-ink/50 dark:text-white/50 hover:text-accent dark:hover:text-accent-bright shrink-0"
+          >
+            full resume <ArrowUpRight size={13} />
+          </Link>
         </div>
+      </section>
+
+      {/* STACK */}
+      <section>
+        <SectionHeading>stack</SectionHeading>
+        <dl className="grid sm:grid-cols-2 gap-x-10 gap-y-6">
+          {skillGroups.map((group) => (
+            <div key={group.title} className="flex flex-col sm:flex-row gap-1 sm:gap-4">
+              <dt className="font-mono text-xs text-ink/40 dark:text-white/40 sm:w-40 shrink-0 sm:pt-0.5">
+                {group.title}
+              </dt>
+              <dd className="font-mono text-sm text-ink/80 dark:text-paper/80">
+                {group.skills.join(', ')}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* CONTACT */}
+      <section>
+        <SectionHeading>get in touch</SectionHeading>
+        <p className="max-w-measure text-lg leading-relaxed text-ink/80 dark:text-paper/80">
+          I&rsquo;m looking for full-stack work — frontend, backend, or the parts in between.{' '}
+          <a
+            href={`mailto:${profile.email}`}
+            className="text-accent dark:text-accent-bright underline underline-offset-4 decoration-1"
+          >
+            {profile.email}
+          </a>
+        </p>
       </section>
 
     </div>
   );
-}
-
-// Minimal Project Item Component
-function ProjectItem({ title, desc, link }: { title: string, desc: string, link: string }) {
-    return (
-        <a href={link} target="_blank" className="block group">
-            <div className="flex justify-between items-baseline">
-                <span className="text-lg group-hover:italic group-hover:underline decoration-gray-500 underline-offset-4">
-                    {title}
-                </span>
-                <span className="text-sm text-gray-500 hidden sm:inline-block">
-                    {desc} ↗
-                </span>
-            </div>
-        </a>
-    )
 }
