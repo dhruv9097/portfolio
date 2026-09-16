@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🎨 Portfolio & Blog
 
-First, run the development server:
+**My corner of the internet — [dhruvs-page.vercel.app](https://dhruvs-page.vercel.app/)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+
+</div>
+
+---
+
+A personal site built on the Next.js **App Router** — portfolio, résumé and a
+markdown-driven blog in one deploy.
+
+## What's in it
+
+| Route | What it is |
+|---|---|
+| `/` | Landing — work, skills and specimens, all driven from typed content files |
+| `/blog` | Post index, read from local markdown at build time |
+| `/posts/[id]` | Individual post, rendered through `remark` |
+| `/resume` | Résumé as a first-class page, not a PDF link |
+| `/favorites` | Things I keep coming back to |
+
+## How it's put together
+
+**Content is data, not JSX.** Everything the site says about me lives in typed modules under
+`content/` — `projects.ts`, `experience.ts`, `skills.ts`, `profile.ts`, `agents.ts`,
+`trending.ts`. Adding a project is editing one array, not touching a component. TypeScript
+catches a missing field before the page ships.
+
+**Posts are markdown on disk.** `lib/posts.ts` reads the filesystem, `gray-matter` parses
+frontmatter and `remark` + `remark-html` render the body — statically generated, no CMS, no
+database, no runtime fetch.
+
+**Theming via `next-themes`,** with a `ThemeSwitch` component and no flash of wrong theme on
+load.
+
+**Custom presentation components** — `Specimen`, `SpecPlate`, `SectionHeading`, `Slot` and
+`ProjectMedia` — give the site a deliberate typographic feel rather than a template one, plus
+`AgentChain` and `Leaderboard` for showing off the multi-agent and trending-dashboard projects
+inline.
+
+## Layout
+
+```
+app/
+  page.tsx              # landing
+  blog/page.tsx         # post index
+  posts/[id]/page.tsx   # post detail
+  resume/page.tsx       # résumé
+  favorites/page.tsx
+  providers.tsx         # theme provider
+content/                # typed content — projects, experience, skills, profile
+components/             # Specimen, SpecPlate, AgentChain, Leaderboard, ThemeSwitch, …
+lib/posts.ts            # markdown loader (gray-matter + remark)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stack
 
-## Learn More
+`Next.js 16` · `React 19` · `TypeScript` · `Tailwind CSS` + `@tailwindcss/typography`
+· `next-themes` · `gray-matter` · `remark` · `lucide-react` · deployed on `Vercel`
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<div align="center">
+Built by <a href="https://github.com/dhruv9097">Dhruv Singh</a>
+</div>
