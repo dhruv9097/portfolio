@@ -4,17 +4,20 @@ import { profile } from '@/content/profile';
 import { skillGroups } from '@/content/skills';
 import { experience } from '@/content/experience';
 import { projects } from '@/content/projects';
-import { sampleThread, sampleThreadIsSample } from '@/content/agents';
+import { agents, sampleThread, sampleThreadIsSample } from '@/content/agents';
+import { facts, channels } from '@/content/shramsetu';
 import SectionHeading from '@/components/SectionHeading';
 import Specimen from '@/components/Specimen';
 import Slot from '@/components/Slot';
 import Leaderboard from '@/components/Leaderboard';
-import AgentChain from '@/components/AgentChain';
+import Chain from '@/components/Chain';
+import Facts from '@/components/Facts';
 
 export default function Home() {
   const latestRole = experience[0];
   const project = (slug: string) => projects.find((p) => p.slug === slug)!;
 
+  const shramsetu = project('shramsetu');
   const trendingProject = project('github-trending');
   const smaProject = project('social-media-automation');
   const physioProject = project('physio-detection');
@@ -64,7 +67,47 @@ export default function Home() {
       <section className="space-y-24">
         <SectionHeading>selected work</SectionHeading>
 
-        {/* 1 — GitHub Trending Dashboard */}
+        {/* 1 — ShramSetu */}
+        <Specimen
+          title={shramsetu.title}
+          tech={shramsetu.tech}
+          link={shramsetu.link}
+          caption="Built solo for Smart India Hackathon PS1, set by the Ministry of Labour & Employment. eShram records where a worker lives; it does not record where they actually go to work. ShramSetu makes presence portable — and because that data is dangerous, the privacy rules are enforced in code rather than in policy: coordinates coarsen to district level after seven days, no cell is published below ten workers, and every individual lookup is written to a log the worker can read."
+        >
+          <div className="space-y-8">
+            <div className="grid sm:grid-cols-3 gap-4">
+              <div className="sm:col-span-2">
+                <Slot
+                  media={shramsetu.media}
+                  spec={{
+                    filename: 'shramsetu-dashboard.png',
+                    spec: '16:10 · 1440×900',
+                    note: 'officer dashboard, choropleth visible',
+                  }}
+                />
+              </div>
+              <Slot
+                aspect="9 / 16"
+                spec={{
+                  filename: 'shramsetu-checkin.png',
+                  spec: '9:16 · 900×1600',
+                  note: 'worker check-in, mobile',
+                }}
+              />
+            </div>
+
+            <Facts items={facts} />
+
+            <div>
+              <h4 className="font-mono text-xs text-ink/40 dark:text-white/40 mb-6">
+                three check-in channels, each a fallback for the one above
+              </h4>
+              <Chain items={channels} />
+            </div>
+          </div>
+        </Specimen>
+
+        {/* 2 — GitHub Trending Dashboard */}
         <Specimen
           title={trendingProject.title}
           tech={trendingProject.tech}
@@ -84,7 +127,7 @@ export default function Home() {
           </div>
         </Specimen>
 
-        {/* 2 — Social Media Automation Engine */}
+        {/* 3 — Social Media Automation Engine */}
         <Specimen
           title={smaProject.title}
           tech={smaProject.tech}
@@ -92,7 +135,7 @@ export default function Home() {
           caption="Seven agents, each with one job, run in sequence — competitor intelligence at the front, a published thread and a generated image at the back. Every phase writes a structured JSON report, and the whole pipeline runs in mock mode against fixtures so a full dry run costs nothing in API quota."
         >
           <div className="space-y-10">
-            <AgentChain />
+            <Chain items={agents.map((a) => ({ name: a.name, job: a.job }))} />
 
             <div className="grid sm:grid-cols-2 gap-4">
               <Slot
@@ -127,7 +170,7 @@ export default function Home() {
           </div>
         </Specimen>
 
-        {/* 3 — Physio-Detection */}
+        {/* 4 — Physio-Detection */}
         <Specimen
           title={physioProject.title}
           tech={physioProject.tech}
@@ -144,7 +187,7 @@ export default function Home() {
           />
         </Specimen>
 
-        {/* 4 — OSCode */}
+        {/* 5 — OSCode */}
         <Specimen
           title={oscodeProject.title}
           tech={oscodeProject.tech}

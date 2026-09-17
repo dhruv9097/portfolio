@@ -1,7 +1,8 @@
-import { Download, Mail, Linkedin, Github } from 'lucide-react';
+import { Download, Mail, Linkedin, Github, ArrowUpRight } from 'lucide-react';
 import { profile } from '@/content/profile';
 import { experience } from '@/content/experience';
 import { skillGroups } from '@/content/skills';
+import { projects } from '@/content/projects';
 import SectionHeading from '@/components/SectionHeading';
 
 export default function Resume() {
@@ -79,23 +80,21 @@ export default function Resume() {
 
       {/* PROJECTS */}
       <section>
-        <SectionHeading>further projects</SectionHeading>
+        <SectionHeading>projects</SectionHeading>
         <div className="space-y-12">
-          <ResumeItem
-            role="Life Expectancy Analysis"
-            company="Python, Pandas, NumPy"
-            location=""
-            period="2024"
-            description="Analyzed a global life expectancy dataset, cleaning multi-source data and producing visualizations of health and socioeconomic trends."
-          />
-
-          <ResumeItem
-            role="Academic Case Studies"
-            company="Research &amp; Data Analysis"
-            location=""
-            period="2023"
-            description="Analyzed Microsoft Farmbeats (IoT/AI in precision agriculture) and 'Waste to Wealth' bioplastic production methodologies."
-          />
+          {projects
+            .filter((p) => p.bullets.length > 0)
+            .map((p) => (
+              <ResumeItem
+                key={p.slug}
+                role={p.title}
+                company={p.tech.join(', ')}
+                location=""
+                period=""
+                description={p.bullets}
+                link={p.link}
+              />
+            ))}
         </div>
       </section>
 
@@ -134,12 +133,23 @@ export default function Resume() {
   );
 }
 
-function ResumeItem({ role, company, location, period, description }: { role: string, company: string, location: string, period: string, description: string | string[] }) {
+function ResumeItem({ role, company, location, period, description, link }: { role: string, company: string, location: string, period: string, description: string | string[], link?: string }) {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 mb-1">
         <h3 className="font-display text-xl font-semibold">{role}</h3>
-        <span className="font-mono text-xs text-ink/40 dark:text-white/40 shrink-0">{period}</span>
+        {period ? (
+          <span className="font-mono text-xs text-ink/40 dark:text-white/40 shrink-0">{period}</span>
+        ) : link ? (
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 font-mono text-xs text-ink/50 dark:text-white/50 hover:text-accent dark:hover:text-accent-bright shrink-0"
+          >
+            repo <ArrowUpRight size={12} />
+          </a>
+        ) : null}
       </div>
 
       <div className="flex flex-wrap gap-2 items-center font-mono text-xs text-ink/50 dark:text-white/50 mb-4">
